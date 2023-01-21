@@ -26,12 +26,12 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
-const convertDbObjectToResponseObject = (db) => {
+const convertDbObjectToResponseObject = (dbObject) => {
   return {
-    playerId: db.player_id,
-    playerName: db.player_name,
-    jerseyNumber: db.jersey_number,
-    role: db.role,
+    playerId: dbObject.player_id,
+    playerName: dbObject.player_name,
+    jerseyNumber: dbObject.jersey_number,
+    role: dbObject.role,
   };
 };
 
