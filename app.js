@@ -26,6 +26,15 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
+const convertDbObjectToResponseObject = (db) => {
+  return {
+    playerId: db.player_id,
+    playerName: db.player_name,
+    jerseyNumber: db.jersey_number,
+    role: db.role,
+  };
+};
+
 //Returns a list of all players in the team
 app.get("/players/", async (request, response) => {
   const getPlayersQuery = `
@@ -38,7 +47,11 @@ app.get("/players/", async (request, response) => {
             `;
 
   const playersArray = await db.all(getPlayersQuery);
-  response.send(playersArray);
+  response.send(
+  playersArray.map((eachPlayer) =>
+      convertDbObjectToResponseObject(eachPlayer)
+    )
+  );
 });
 
 //Creates a new player in the team (database)
@@ -74,7 +87,9 @@ app.get("/players/:playerId/", async (request, response) => {
         player_id = ${playerId};`;
 
   const player = await db.get(getPlayerQuery);
-  response.send(player);
+  response.send(
+    convertDbObjectToResponseObject(player)
+    );
 });
 
 //Updates the details of a player
